@@ -1,5 +1,6 @@
 {
     "name": "insnsk/laravel-translate-excel",
+    "version": "0.0.1",
     "description": "Convert translations to/from a single Excel file",
     "keywords": [
         "ins",
@@ -76,6 +77,6 @@
             }
         }
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true
 }
