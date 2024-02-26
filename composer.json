@@ -1,5 +1,5 @@
 {
-    "name": "ins/laravel-translate-excel",
+    "name": "insnsk/laravel-translate-excel",
     "description": "Convert translations to/from a single Excel file",
     "keywords": [
         "ins",
