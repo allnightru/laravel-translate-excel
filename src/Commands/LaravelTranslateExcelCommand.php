@@ -12,7 +12,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class LaravelTranslateExcelCommand extends Command
 {
-    public $signature = 'lang:convert {mode=to} {filename=translationx.xlsx}';
+    public $signature = 'lang:convert {mode=to} {filename=translations.xlsx}';
 
     public $description = 'Convert translations from/to Excel file';
 

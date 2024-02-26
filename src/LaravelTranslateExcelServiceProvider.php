@@ -17,7 +17,7 @@ class LaravelTranslateExcelServiceProvider extends PackageServiceProvider
          */
         $package
             ->name('laravel-translate-excel')
-            ->hasConfigFile()
+            ->hasConfigFile('translate-excel')
             ->hasCommand(LaravelTranslateExcelCommand::class);
     }
 }
