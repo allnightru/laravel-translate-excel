@@ -1,6 +1,6 @@
 {
     "name": "insnsk/laravel-translate-excel",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "Convert translations to/from a single Excel file",
     "keywords": [
         "ins",
