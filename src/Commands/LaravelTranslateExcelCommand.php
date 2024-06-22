@@ -32,6 +32,10 @@ class LaravelTranslateExcelCommand extends Command
         foreach (config('translate-excel.locales') as $locale) {
             $files = File::files(base_path('lang/'.$locale));
             foreach ($files as $file) {
+                if (in_array($file, config('translate-excel.exclude'))) {
+                    continue;
+                }
+
                 $filenameKey = explode('.', $file->getBasename())[0];
                 if (! isset($translations[$filenameKey])) {
                     $translations[$filenameKey] = [];

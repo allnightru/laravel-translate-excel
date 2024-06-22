@@ -4,4 +4,8 @@
 return [
     'main_locale' => 'en',
     'locales' => ['en', 'ru', 'de', 'pt', 'es', 'ja', 'fr', 'hi', 'cn'],
+    'exclude' => [
+        // 'pagination.php',
+        // 'validation.php',
+    ],
 ];
