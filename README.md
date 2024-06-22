@@ -13,7 +13,7 @@ dot-arrayed keys. Each file comes to a separate sheet.
 You can install the package via composer:
 
 ```bash
-composer require ins/laravel-translate-excel
+composer require insnsk/laravel-translate-excel
 ```
 
 You can publish the config file with:
