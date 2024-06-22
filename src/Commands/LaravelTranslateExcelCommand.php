@@ -19,30 +19,30 @@ class LaravelTranslateExcelCommand extends Command
     public function handle(): int
     {
 
-
-        return match($this->argument('mode')) {
+        return match ($this->argument('mode')) {
             'to' => $this->to(),
             'from' => $this->from(),
         };
     }
 
-    protected function to() {
+    protected function to()
+    {
 
         $translations = [];
-        foreach(config('translate-excel.locales') as $locale) {
+        foreach (config('translate-excel.locales') as $locale) {
             $files = File::files(base_path('lang/'.$locale));
-            foreach($files as $file) {
-                $filenameKey = explode(".", $file->getBasename())[0];
-                if(!isset($translations[$filenameKey])) {
+            foreach ($files as $file) {
+                $filenameKey = explode('.', $file->getBasename())[0];
+                if (! isset($translations[$filenameKey])) {
                     $translations[$filenameKey] = [];
                 }
                 $keys = array_keys(Arr::dot(Lang::get($filenameKey)));
-                foreach($keys as $key) {
-                    if(!isset($translations[$filenameKey][$key])) {
+                foreach ($keys as $key) {
+                    if (! isset($translations[$filenameKey][$key])) {
                         $translations[$filenameKey][$key] = [];
                     }
-                    $translation = Lang::get($filenameKey.".".$key, [],$locale);
-                    if($translation === Lang::get($filenameKey.".".$key, [], config('translate-excel.main_locale')) && $locale !== config('translate-excel.main_locale')) {
+                    $translation = Lang::get($filenameKey.'.'.$key, [], $locale);
+                    if ($translation === Lang::get($filenameKey.'.'.$key, [], config('translate-excel.main_locale')) && $locale !== config('translate-excel.main_locale')) {
                         $translation = '';
                     }
                     $translations[$filenameKey][$key][$locale] = $translation;
@@ -55,24 +55,27 @@ class LaravelTranslateExcelCommand extends Command
         return self::SUCCESS;
     }
 
-    protected function from() {
+    protected function from()
+    {
         $import = new TranslationImport();
         $import->import($this->argument('filename'));
         $translations = [];
 
-        foreach(config('translate-excel.locales') as $locale) {
-            for($k=0;$k<count($import->sheetNames);$k++) {
-                $currentTranslation = array_map(function($item) use ($locale) {return $item[$locale];}, $import->sheetData[$k]);
+        foreach (config('translate-excel.locales') as $locale) {
+            for ($k = 0; $k < count($import->sheetNames); $k++) {
+                $currentTranslation = array_map(function ($item) use ($locale) {
+                    return $item[$locale];
+                }, $import->sheetData[$k]);
 
-                foreach($currentTranslation as $key=>$value) {
-                    if(empty($value)) {
+                foreach ($currentTranslation as $key => $value) {
+                    if (empty($value)) {
                         unset($currentTranslation[$key]);
                     }
                 }
 
                 $translation = Arr::undot($currentTranslation);
 
-                if(!empty($translation)) {
+                if (! empty($translation)) {
 
                     $string = var_export($translation, true);
                     $patterns = [
@@ -82,22 +85,23 @@ class LaravelTranslateExcelCommand extends Command
                         "/([ ]*)(\'[^\']+\') => ([\[\'])/" => '$1$2 => $3',
                     ];
                     $string = preg_replace(array_keys($patterns), array_values($patterns), $string);
-                    if (!is_dir(storage_path('lang/' . $locale))) {
-                        mkdir(storage_path('lang/' . $locale), 0755, true);
+                    if (! is_dir(storage_path('lang/'.$locale))) {
+                        mkdir(storage_path('lang/'.$locale), 0755, true);
                     }
-                    if (!file_exists(storage_path('lang/' . $locale . '/' . $import->sheetNames[$k] . '.php'))) {
-                        $fstr = fopen(storage_path('lang/' . $locale . '/' . $import->sheetNames[$k] . '.php'), "x");
+                    if (! file_exists(storage_path('lang/'.$locale.'/'.$import->sheetNames[$k].'.php'))) {
+                        $fstr = fopen(storage_path('lang/'.$locale.'/'.$import->sheetNames[$k].'.php'), 'x');
                         fclose($fstr);
                     }
-                    $fstr = fopen(storage_path('lang/' . $locale . '/' . $import->sheetNames[$k] . '.php'), "w+");
-                    fputs($fstr, '<?php
+                    $fstr = fopen(storage_path('lang/'.$locale.'/'.$import->sheetNames[$k].'.php'), 'w+');
+                    fwrite($fstr, '<?php
                 return ');
-                    fputs($fstr, $string);
-                    fputs($fstr, ';');
+                    fwrite($fstr, $string);
+                    fwrite($fstr, ';');
                     fclose($fstr);
                 }
             }
         }
+
         return self::SUCCESS;
     }
 }

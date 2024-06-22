@@ -2,6 +2,4 @@
 
 namespace Ins\LaravelTranslateExcel;
 
-class LaravelTranslateExcel
-{
-}
+class LaravelTranslateExcel {}
