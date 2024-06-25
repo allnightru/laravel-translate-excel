@@ -2,9 +2,9 @@
 
 namespace Ins\LaravelTranslateExcel;
 
+use Ins\LaravelTranslateExcel\Commands\LaravelTranslateExcelCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Ins\LaravelTranslateExcel\Commands\LaravelTranslateExcelCommand;
 
 class LaravelTranslateExcelServiceProvider extends PackageServiceProvider
 {
